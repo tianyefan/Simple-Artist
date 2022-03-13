@@ -1,0 +1,103 @@
+import React, { useState } from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import {
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import AppLoading from "expo-app-loading";
+import {
+  useFonts,
+  DancingScript_400Regular,
+} from "@expo-google-fonts/dancing-script";
+import { Box, Text, Image, Button, Stack } from "native-base";
+import Masonry from "../components/Masonry";
+
+function ProfileScreen() {
+  const imagescr =
+    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
+  const prof_pic =
+    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
+  let [fontsLoaded] = useFonts({
+    DancingScript_400Regular,
+  });
+  const [mode, setMode] = useState("Saved");
+  const [screen, setScreen] = useState("");
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <>
+        <Box
+          flexDir="row"
+          safeArea
+          bgColor="blueGray.50"
+          justifyContent="center"
+        >
+          <Text
+            fontFamily="DancingScript_400Regular"
+            fontSize={30}
+            width="40%"
+            marginLeft={30}
+          >
+            Simple Artist
+          </Text>
+          <FontAwesome5
+            name="feather-alt"
+            size={55}
+            color="#000"
+            style={{ marginLeft: 60 }}
+          />
+        </Box>
+        <Stack direction="column" alignItems="center">
+          <Box my={5}>
+            <Image
+              alignSelf="center"
+              w={250}
+              h={125}
+              source={{ uri: imagescr }}
+              alt="bg"
+              borderRadius={15}
+            />
+            <Image
+              alignSelf="center"
+              size="xs"
+              source={{ uri: prof_pic }}
+              alt="bg"
+              borderRadius={50}
+              marginTop={-5}
+            />
+            <Text textAlign="center" fontSize="md" my={2}>The Doogge</Text>
+          </Box>
+          <Box flexDir="row" alignItems="center" w="100%" justifyContent="center">
+            <Button
+              borderRadius={10}
+              bgColor={mode === "Saved" ? "black" : "gray.50"}
+              size="lg"
+              _pressed={{ opacity: 0.6 }}
+              marginX={5}
+              onPress={() => setMode("Saved")}
+            >
+              <Text color={mode === "Saved" ? "white" : "black"} fontFamily="DancingScript_400Regular">Saved</Text>
+            </Button>
+            <Button
+              borderRadius={10}
+              bgColor={mode === "Created" ? "black" : "gray.50"}
+              size="lg"
+              _pressed={{ opacity: 0.6 }}
+              marginX={5}
+              onPress={() => setMode("Created")}
+            >
+              <Text color={mode === "Created" ? "white" : "black"} fontFamily="DancingScript_400Regular">Created</Text>
+            </Button>
+          </Box>
+          
+        </Stack>
+      </>
+    );
+  }
+}
+
+
+
+export default ProfileScreen;
