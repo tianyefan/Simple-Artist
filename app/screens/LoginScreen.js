@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import {Dimensions } from "react-native";
 import AppLoading from "expo-app-loading";
 import { FontAwesome5 } from "@expo/vector-icons";
 import {
@@ -36,10 +36,11 @@ function LoginScreen() {
       <Image
         source={{ uri: item.illustration }}
         w={300}
-        h={250}
+        h={200}
         mt={10}
         borderRadius={30}
         alt="login_image"
+        shadow="10"
       />
     );
   };

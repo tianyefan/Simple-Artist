@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { Box, Image } from "native-base";
-import MasonryList from "@react-native-seoul/masonry-list";
-
+//import MasonryList from "@react-native-seoul/masonry-list";
+import { Box, Stack, FlatList, Image, Text } from "native-base";
+import Feed from "./Feed";
 const data = [
   {
     id: "id123",
@@ -149,39 +149,26 @@ const data = [
   },
 ];
 
-const FurnitureCard = ({ item }) => {
-  const randomBool = useMemo(() => Math.random() < 0.5, []);
-
-  return (
-    <Box>
-      <Image
-        source={{ uri: item.imgURL }}
-        height={randomBool ? 150 : 200}
-        alignSelf="stretch"
-        marginHorizontal={5}
-        marginTop={15}
-        borderRadius={10}
-        resizeMode="cover"
-        alt="furniture"
-      />
-    </Box>
-  );
-};
-
 const Masonry = () => {
   return (
-    <Box w="100%" flex={1} bgColor="trueGray.200">
-      <MasonryList
-        keyExtrator={(item) => item.id}
-        contentContainerStyle={{
-          paddingHorizontal: 24,
-          alignSelf: "stretch",
-        }}
-        numColumns={2}
-        data={data}
-        renderItem={({ item }) => <FurnitureCard item={item} key={item.id} />}
-      />
-    </Box>
+    <FlatList
+      keyExtrator={(item) => item.id}
+      data={data}
+      renderItem={({ item }) => <Feed uri={item.imgURL} key={item.id} />}
+      ListFooterComponent={
+        <Box
+          w="100%"
+          h={200}
+          alignItems="center"
+          justifyContent="flex-start"
+          my={10}
+        >
+          <Text textAlign="center" fontSize={20}>
+            No More!!
+          </Text>
+        </Box>
+      }
+    />
   );
 };
 
