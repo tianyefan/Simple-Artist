@@ -11,6 +11,10 @@ import MyList from "./app/components/MyList";
 import BottomBar from "./app/components/BottomBar";
 import Topbar from "./app/components/Topbar";
 import Feed from "./app/components/Feed";
+import PhotoScreen from "./app/screens/PhotoScreen";
+import MagicScreen from "./app/screens/MagicScreen";
+
+
 export default function App() {
   return (
     <NativeBaseProvider>
