@@ -14,7 +14,7 @@ import Feed from "./app/components/Feed";
 export default function App() {
   return (
     <NativeBaseProvider>
-      <ProfileScreen />
+      <HomeScreen />
     </NativeBaseProvider>
   );
 }

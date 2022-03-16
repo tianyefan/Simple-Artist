@@ -14,7 +14,11 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { useState } from "react";
+import { LogBox } from 'react-native';
+
+
 function BottomBar() {
+  LogBox.ignoreAllLogs()
   const { isOpen, onOpen, onClose } = useDisclose();
   const [screen, setScreen] = useState("");
   return (
@@ -63,7 +67,7 @@ function BottomBar() {
         </Box>
       </Stack>
       <Center safeArea>
-        <Actionsheet isOpen={isOpen} onClose={onClose}>
+        <Actionsheet isOpen={isOpen} onClose={onClose} >
           <Actionsheet.Content>
             <Box w="100%" h={60} px={4} justifyContent="center">
               <Text fontSize={16}>Create</Text>

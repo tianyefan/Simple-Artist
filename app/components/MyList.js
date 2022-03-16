@@ -158,8 +158,8 @@ function MyList(props) {
       keyExtractor={(item) => item.id}
       ListHeaderComponent={props.ListHeaderComponent}
       ListFooterComponent={
-        <Box w="100%" h={200} alignItems="center" justifyContent="flex-start" my={10}>
-          <Text textAlign="center" fontSize={20}>
+        <Box w="100%" h={200} alignItems="center" justifyContent="flex-start" marginBottom={10} marginTop={15}>
+          <Text textAlign="center" fontSize={20} fontFamily="body">
             No More!!
           </Text>
         </Box>

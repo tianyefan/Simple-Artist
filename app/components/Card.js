@@ -14,7 +14,6 @@ function Card({ uri }) {
       borderColor="dark.600"
       safeArea
       alignItems="center"
-      space={20}
       h={140}
     >
       <Box alignSelf="center" justifyContent="center" my={5}>
