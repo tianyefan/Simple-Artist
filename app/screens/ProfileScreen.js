@@ -22,7 +22,6 @@ function ProfileScreen() {
     DancingScript_400Regular,
   });
   const [mode, setMode] = useState("Saved");
-  const [screen, setScreen] = useState("");
 
   const ListHeaderComponent = () => {
     return (

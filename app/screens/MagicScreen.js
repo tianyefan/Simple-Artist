@@ -12,11 +12,9 @@ import Topbar from "../components/Topbar";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-function MagicScreen({route, navigation}) {
+function MagicScreen({ route, navigation }) {
   const { uri } = route.params;
-  console.log(uri)
-  let image_uri =
-    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/images%2F00130.jpg?alt=media&token=79ba8811-44d8-4e2e-908d-8d63ffe5929f";
+  let image_uri = uri;
   let doge_url =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
   const [click, setClick] = useState(false);
@@ -83,7 +81,9 @@ function MagicScreen({route, navigation}) {
       )}
       {finish && (
         <>
-        <Text fontSize={15} textAlign="center" fontWeight="bold">Choose one tag:</Text>
+          <Text fontSize={15} textAlign="center" fontWeight="bold">
+            Choose one tag:
+          </Text>
           <Box
             flexDir="row"
             flexWrap="wrap"
