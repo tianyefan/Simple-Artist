@@ -92,6 +92,7 @@ function LoginScreen() {
               fontWeight="bold"
               size="lg"
               _pressed={{ opacity: 0.6 }}
+              onPress={() => navigation.navigate('Home') }
             >
               Login With
             </Button>

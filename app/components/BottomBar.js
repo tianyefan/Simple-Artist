@@ -16,6 +16,11 @@ import {
 import { useState } from "react";
 import { LogBox } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+
+
 function BottomBar() {
   LogBox.ignoreAllLogs();
   const { isOpen, onOpen, onClose } = useDisclose();

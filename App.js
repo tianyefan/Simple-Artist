@@ -1,5 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import LoginScreen from "./app/screens/LoginScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import Masonry from "./app/components/Masonry";
@@ -15,10 +16,11 @@ import PhotoScreen from "./app/screens/PhotoScreen";
 import MagicScreen from "./app/screens/MagicScreen";
 
 
+const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NativeBaseProvider>
-      <HomeScreen />
+      <LoginScreen />
     </NativeBaseProvider>
   );
 }
