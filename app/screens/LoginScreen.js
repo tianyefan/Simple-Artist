@@ -9,7 +9,7 @@ import {
 import { Box, Text, Button, Stack, Image } from "native-base";
 import Carousel from "react-native-snap-carousel";
 
-function LoginScreen() {
+function LoginScreen({navigation}) {
   const IMAGES = [
     {
       illustration: "https://i.imgur.com/UYiroysl.jpg",
@@ -92,7 +92,7 @@ function LoginScreen() {
               fontWeight="bold"
               size="lg"
               _pressed={{ opacity: 0.6 }}
-              onPress={() => navigation.navigate('Home') }
+              onPress={() => navigation.push('HomeTab') }
             >
               Login With
             </Button>

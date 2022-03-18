@@ -12,7 +12,9 @@ import Topbar from "../components/Topbar";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-function MagicScreen() {
+function MagicScreen({route, navigation}) {
+  const { uri } = route.params;
+  console.log(uri)
   let image_uri =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/images%2F00130.jpg?alt=media&token=79ba8811-44d8-4e2e-908d-8d63ffe5929f";
   let doge_url =
@@ -39,6 +41,7 @@ function MagicScreen() {
             fontSize={18}
             fontWeight="bold"
             isRequired
+            my={1}
           />
         </KeyboardAvoidingView>
       )}
@@ -50,6 +53,7 @@ function MagicScreen() {
         margin="auto"
         alt="monet"
         resizeMode="cover"
+        my={1}
       />
       {!finish && (
         <Button
@@ -160,9 +164,10 @@ function MagicScreen() {
       )}
       {finish && (
         <Button
-          w={100}
-          h={45}
-          margin="auto"
+          w={75}
+          h={35}
+          m="auto"
+          mb={2}
           borderRadius={10}
           bgColor="red.400"
           _pressed={{ opacity: 0.6 }}

@@ -8,7 +8,7 @@ import {
 function Feed({ uri }) {
   const [save, setSave] = React.useState(false);
   return (
-    <Box alignSelf="center" justifyContent="center" shadow="9">
+    <Box alignSelf="flex-start" justifyContent="center" shadow="9" px={3}>
       <Image
         source={{ uri: uri }}
         w={270}
@@ -21,7 +21,7 @@ function Feed({ uri }) {
         name={save === true ? "heart" : "heart-outline"}
         size={40}
         color="red"
-        style={{ position: "absolute", left: 10, top: 30 }}
+        style={{ position: "absolute", left: 25, top: 30 }}
         onPress={() => {
           setSave((prevState) => !prevState);
         }}

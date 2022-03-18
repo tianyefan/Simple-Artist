@@ -98,7 +98,6 @@ function ProfileScreen() {
         <Box my={2}>
           <MyList ListHeaderComponent={ListHeaderComponent} />
         </Box>
-        <BottomBar />
       </>
     );
   }
