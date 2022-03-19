@@ -19,7 +19,7 @@ function Topbar() {
       <Box flexDir="row" safeArea bgColor="blueGray.50" justifyContent="center">
         <Text
           fontFamily="DancingScript_400Regular"
-          fontSize={30}
+          fontSize={25}
           width="40%"
           marginLeft={30}
         >
@@ -27,7 +27,7 @@ function Topbar() {
         </Text>
         <FontAwesome5
           name="feather-alt"
-          size={55}
+          size={45}
           color="#000"
           style={{ marginLeft: 60 }}
         />

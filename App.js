@@ -10,21 +10,21 @@ import LoginScreen from "./app/screens/LoginScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
 import MagicScreen from "./app/screens/MagicScreen";
-
+import PublishScreen from "./app/screens/PublishScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreAllLogs();
 
 export default function App() {
   //const [user, setUser] = useState(null);
-  const HomeStack = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="HomeStack" component={HomeScreen} />
-        <Stack.Screen name="MagicStack" component={MagicScreen} />
-      </Stack.Navigator>
-    );
-  };
+  // const HomeStack = () => {
+  //   return (
+  //     <Stack.Navigator screenOptions={{ headerShown: false }}>
+  //       <Stack.Screen name="HomeStack" component={HomeScreen} />
+
+  //     </Stack.Navigator>
+  //   );
+  // };
   const HomeTabScreens = () => {
     return (
       <Tab.Navigator
@@ -46,7 +46,7 @@ export default function App() {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     );
@@ -57,6 +57,8 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="HomeTab" component={HomeTabScreens} />
+          <Stack.Screen name="MagicStack" component={MagicScreen} />
+          <Stack.Screen name="PublishStack" component={PublishScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
