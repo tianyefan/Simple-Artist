@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 import AppLoading from "expo-app-loading";
 import { FontAwesome5 } from "@expo/vector-icons";
 import {
@@ -8,8 +8,10 @@ import {
 } from "@expo-google-fonts/dancing-script";
 import { Box, Text, Button, Stack, Image } from "native-base";
 import Carousel from "react-native-snap-carousel";
+//import auth from "../firebase/firebase";
 
-function LoginScreen({navigation}) {
+
+function LoginScreen({ navigation }) {
   const IMAGES = [
     {
       illustration: "https://i.imgur.com/UYiroysl.jpg",
@@ -27,6 +29,10 @@ function LoginScreen({navigation}) {
       illustration: "https://i.imgur.com/2nCt3Sbl.jpg",
     },
   ];
+  const handleLogin = () => {
+    //console.log(auth)
+    navigation.push('HomeTab')
+  };
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
   });
@@ -92,7 +98,7 @@ function LoginScreen({navigation}) {
               fontWeight="bold"
               size="lg"
               _pressed={{ opacity: 0.6 }}
-              onPress={() => navigation.push('HomeTab') }
+              onPress={handleLogin}
             >
               Login With
             </Button>
