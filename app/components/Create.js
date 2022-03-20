@@ -34,9 +34,14 @@ function Create({ navigation }) {
       quality: 1,
     }).then((res) => {
       //setOpen(false);
-      navigation.push("MagicStack", {
-        uri: res.uri,
-      });
+      if (res.cancelled) {
+        setOpen((prevState) => !prevState);
+      }
+      if (!res.cancelled) {
+        navigation.push("MagicStack", {
+          uri: res.uri,
+        });
+      }
     });
   };
 
@@ -56,6 +61,10 @@ function Create({ navigation }) {
       quality: 1,
     });
 
+    if (result.cancelled) {
+      setOpen((prevState) => !prevState);
+    }
+
     if (!result.cancelled) {
       //setOpen(false);
       navigation.push("MagicStack", {
@@ -69,8 +78,6 @@ function Create({ navigation }) {
       <Box
         bottom={0}
         right={0}
-        w={200}
-        h={200}
         position="absolute"
         alignItems="center"
         justifyContent="center"
@@ -79,7 +86,7 @@ function Create({ navigation }) {
           <AnimateFab
             renderInPortal={false}
             animation="bounceInUp"
-            easing="ease-in-out"
+            easing="linear"
             my={32}
             shadow={2}
             icon={
@@ -92,7 +99,7 @@ function Create({ navigation }) {
           <AnimateFab
             renderInPortal={false}
             animation="bounceInUp"
-            easing="ease-in-out"
+            easing="linear"
             my={16}
             shadow={2}
             icon={<Icon color="white" as={AntDesign} name="camera" size="5" />}

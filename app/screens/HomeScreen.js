@@ -8,7 +8,7 @@ function HomeScreen({ navigation }) {
     <>
       <Topbar />
       <Box>
-        <Masonry />
+        <Masonry navigation={navigation}/>
       </Box>
       <Create navigation={navigation}/>
     </>

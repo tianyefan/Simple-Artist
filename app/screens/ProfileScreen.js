@@ -13,7 +13,7 @@ import { Box, Text, Image, Button, Stack } from "native-base";
 import MyList from "../components/MyList";
 import Topbar from "../components/Topbar";
 import BottomBar from "../components/BottomBar";
-function ProfileScreen() {
+function ProfileScreen({route, navigation}) {
   const imagescr =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
   const prof_pic =
@@ -95,7 +95,7 @@ function ProfileScreen() {
       <>
         <Topbar />
         <Box my={2}>
-          <MyList ListHeaderComponent={ListHeaderComponent} />
+          <MyList ListHeaderComponent={ListHeaderComponent} navigation={navigation}/>
         </Box>
       </>
     );
