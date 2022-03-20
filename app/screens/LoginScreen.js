@@ -71,7 +71,7 @@ function LoginScreen({navigation}) {
         >
           <Box>
             <Text fontSize={48} fontFamily="DancingScript_400Regular">
-              Simple Artist
+              SimArt
             </Text>
           </Box>
           <Box flexDir="row" alignItems="center">

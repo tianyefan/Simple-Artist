@@ -75,7 +75,7 @@ function MagicScreen({ route, navigation }) {
             }}
           >
             <Text color="white" fontFamily="DancingScript_400Regular">
-              Simple Art
+              SimArt
             </Text>
           </Button>
         )}

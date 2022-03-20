@@ -19,11 +19,11 @@ function Topbar() {
       <Box flexDir="row" safeArea bgColor="blueGray.50" justifyContent="center">
         <Text
           fontFamily="DancingScript_400Regular"
-          fontSize={25}
+          fontSize={30}
           width="40%"
           marginLeft={30}
         >
-          Simple Artist
+          SimArt
         </Text>
         <FontAwesome5
           name="feather-alt"
