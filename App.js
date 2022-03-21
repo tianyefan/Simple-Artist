@@ -12,6 +12,8 @@ import ProfileScreen from "./app/screens/ProfileScreen";
 import MagicScreen from "./app/screens/MagicScreen";
 import PublishScreen from "./app/screens/PublishScreen";
 import DetailScreen from "./app/screens/DetailScreen";
+import SignInScreen from "./app/screens/SignInScreen";
+import SignUpScreen from "./app/screens/SignUpScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreAllLogs();
@@ -57,6 +59,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen}/>
+          <Stack.Screen name="SignUp" component={SignUpScreen}/>
           <Stack.Screen name="HomeTab" component={HomeTabScreens} />
           <Stack.Screen name="Detail" component={DetailScreen} />
           <Stack.Screen name="MagicStack" component={MagicScreen} />

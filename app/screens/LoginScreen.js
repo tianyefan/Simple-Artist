@@ -6,11 +6,18 @@ import {
   useFonts,
   DancingScript_400Regular,
 } from "@expo-google-fonts/dancing-script";
-import { Box, Text, Button, Stack, Image } from "native-base";
+import {
+  Box,
+  Text,
+  Button,
+  Stack,
+  Image,
+  KeyboardAvoidingView,
+} from "native-base";
 import Carousel from "react-native-snap-carousel";
 //import auth from "../firebase/firebase";
-
-
+import Login from "../components/Login";
+import { Platform, Keyboard } from "react-native";
 function LoginScreen({ navigation }) {
   const IMAGES = [
     {
@@ -31,7 +38,7 @@ function LoginScreen({ navigation }) {
   ];
   const handleLogin = () => {
     //console.log(auth)
-    navigation.push('HomeTab')
+    navigation.push("HomeTab");
   };
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
@@ -68,7 +75,7 @@ function LoginScreen({ navigation }) {
           />
         </Box>
         <Stack
-          space={10}
+          space={5}
           alignItems="center"
           direction="column"
           safeArea
@@ -90,8 +97,8 @@ function LoginScreen({ navigation }) {
             </Text>
             <FontAwesome5 name="feather-alt" size={60} color="black" />
           </Box>
-          <Box>
-            <Button
+
+          {/* <Button
               endIcon={<FontAwesome5 name="google" size={20} color="white" />}
               borderRadius={10}
               bgColor="red.400"
@@ -101,8 +108,8 @@ function LoginScreen({ navigation }) {
               onPress={handleLogin}
             >
               Login With
-            </Button>
-          </Box>
+            </Button> */}
+          <Login navigation={navigation}/>
         </Stack>
       </>
     );
