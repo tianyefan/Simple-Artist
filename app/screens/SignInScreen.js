@@ -8,6 +8,7 @@ import {
   Icon,
   KeyboardAvoidingView,
   Button,
+  useToast
 } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Platform, Keyboard } from "react-native";
@@ -16,19 +17,26 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { stringify } from "@firebase/util";
 function SignInScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [show, setShow] = React.useState(false);
+  const toast = useToast();
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((res) => {
-        console.log(res.user.email);
+        toast.show({
+          description: "Sign in !",
+          placement: "bottom",
+          duration: 1000
+        });
         navigation.push("HomeTab");
       })
       .catch((err) => {
-        console.log(err);
+        toast.show({ description: stringify(err.code), placement: "bottom" });
+        //console.log(err);
       });
   };
   return (
@@ -39,6 +47,7 @@ function SignInScreen({ navigation }) {
         my="auto"
       >
         <Stack space={4} w="100%" alignItems="center">
+          <Text fontSize={18}>Login</Text>
           <Input
             w={{
               base: "75%",

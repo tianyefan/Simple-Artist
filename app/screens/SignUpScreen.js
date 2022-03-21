@@ -8,6 +8,7 @@ import {
   Stack,
   Button,
   Icon,
+  useToast,
 } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Platform, Keyboard } from "react-native";
@@ -16,20 +17,28 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-function SignUpScreen({navigation}) {
+import { stringify } from "@firebase/util";
+function SignUpScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [show, setShow] = React.useState(false);
+  const toast = useToast();
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
         // make a post request to server and let server create
         //  a User and save to Firebase Storage
-        navigation.push('SignIn')
+        toast.show({
+          description: "Sign up successfully !",
+          placement: "bottom",
+          duration: 1000
+        });
+        navigation.push("SignIn");
       })
       .catch((err) => {
-        console.log(err);
+        toast.show({ description: stringify(err.code), placement: "bottom" });
+        //console.log(err);
       });
   };
 
@@ -41,6 +50,7 @@ function SignUpScreen({navigation}) {
         my="auto"
       >
         <Stack space={4} w="100%" alignItems="center">
+          <Text fontSize={18}>Register</Text>
           <Input
             w={{
               base: "75%",
