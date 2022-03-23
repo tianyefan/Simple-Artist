@@ -1,8 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { initializeAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 import { AsyncStorageStatic } from "react-native";
-import { getReactNativePersistence } from 'firebase/auth/react-native';
+import { getReactNativePersistence } from "firebase/auth/react-native";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,10 +14,13 @@ const firebaseConfig = {
   projectId: "simart-5a0ac",
   storageBucket: "simart-5a0ac.appspot.com",
   messagingSenderId: "123722745038",
-  appId: "1:123722745038:web:61d80783ee2ce8a0b5fc9f"
+  appId: "1:123722745038:web:61d80783ee2ce8a0b5fc9f",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorageStatic) })
-export default auth
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorageStatic),
+});
+const storage = getStorage(app);
+export { storage, auth as default };

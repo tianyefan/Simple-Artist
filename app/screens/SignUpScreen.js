@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Topbar from "../components/Topbar";
 import {
   Box,
@@ -17,24 +17,43 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { stringify } from "@firebase/util";
+import { async, stringify } from "@firebase/util";
+import axios from "axios";
+
+const serverURL = "https://7d21-2601-647-5701-4a40-9de1-b082-c534-6bdd.ngrok.io";
+
 function SignUpScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [show, setShow] = React.useState(false);
   const toast = useToast();
 
-  const handleSignUp = () => {
+  const user = {};
+
+  const handleSignUp = async () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => {
+      .then(async (res) => {
         // make a post request to server and let server create
-        //  a User and save to Firebase Storage
-        toast.show({
-          description: "Sign up successfully !",
-          placement: "bottom",
-          duration: 1000
-        });
-        navigation.push("SignIn");
+        //  a User and save to Firestore Storage
+        userId = res.user.uid;
+        user["name"] = res.user.email;
+        user["src"] =
+          "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
+        //user.createdFeed = [];
+        //user.savedFeed = [];
+        console.log(JSON.stringify(user));
+        await axios
+          .post(`${serverURL}/users/${userId}`, JSON.stringify(user))
+          .then((response) => {
+            console.log(response.data);
+            toast.show({
+              description: "Sign up successfully !",
+              placement: "bottom",
+              duration: 1000,
+            });
+            navigation.push("SignIn");
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         toast.show({ description: stringify(err.code), placement: "bottom" });
