@@ -20,14 +20,13 @@ import {
 import { async, stringify } from "@firebase/util";
 import axios from "axios";
 
-const serverURL = "https://7d21-2601-647-5701-4a40-9de1-b082-c534-6bdd.ngrok.io";
+const serverURL = "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
 
 function SignUpScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [show, setShow] = React.useState(false);
   const toast = useToast();
-
   const user = {};
 
   const handleSignUp = async () => {
@@ -39,15 +38,14 @@ function SignUpScreen({ navigation }) {
         user["name"] = res.user.email;
         user["src"] =
           "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
-        //user.createdFeed = [];
-        //user.savedFeed = [];
-        console.log(JSON.stringify(user));
+      
+        //console.log(JSON.stringify(user));
         await axios
           .post(`${serverURL}/users/${userId}`, JSON.stringify(user))
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
             toast.show({
-              description: "Sign up successfully !",
+              description: "Sign up successfully!",
               placement: "bottom",
               duration: 1000,
             });

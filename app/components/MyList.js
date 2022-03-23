@@ -81,7 +81,7 @@ function MyList(props) {
   };
   return (
     <FlatList
-      data={data}
+      data={props.data}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       ListHeaderComponent={props.ListHeaderComponent}

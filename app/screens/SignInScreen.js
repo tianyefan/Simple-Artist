@@ -8,7 +8,7 @@ import {
   Icon,
   KeyboardAvoidingView,
   Button,
-  useToast
+  useToast,
 } from "native-base";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Platform, Keyboard } from "react-native";
@@ -18,21 +18,34 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { stringify } from "@firebase/util";
+import axios from "axios";
 function SignInScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [show, setShow] = React.useState(false);
   const toast = useToast();
+  const serverURL =
+    "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        toast.show({
-          description: "Sign in !",
-          placement: "bottom",
-          duration: 1000
-        });
-        navigation.push("HomeTab");
+      .then(async (res) => {
+        const userId = res.user.uid;
+        await axios
+          .get(`${serverURL}/users/${userId}`)
+          .then((response) => {
+            //console.log(response.data);
+            toast.show({
+              description: "Sign in !",
+              placement: "bottom",
+              duration: 1000,
+            });
+            navigation.push("HomeTab", {
+              params: response.data,
+              screen: "Profile",
+            });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         toast.show({ description: stringify(err.code), placement: "bottom" });

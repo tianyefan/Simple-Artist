@@ -13,7 +13,7 @@ import { Box, Text, Image, Button, Stack } from "native-base";
 import MyList from "../components/MyList";
 import Topbar from "../components/Topbar";
 import BottomBar from "../components/BottomBar";
-function ProfileScreen({route, navigation}) {
+function ProfileScreen({ route, navigation }) {
   const imagescr =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
   const prof_pic =
@@ -22,7 +22,10 @@ function ProfileScreen({route, navigation}) {
     DancingScript_400Regular,
   });
   const [mode, setMode] = useState("Saved");
-
+  const [data, setData] = useState([])
+  //console.log(route.params);
+  const user = route.params
+  //console.log(user["profile_pic"])
   const ListHeaderComponent = () => {
     return (
       <Stack direction="column" alignItems="center">
@@ -38,13 +41,13 @@ function ProfileScreen({route, navigation}) {
           <Image
             alignSelf="center"
             size="xs"
-            source={{ uri: prof_pic }}
+            source={{ uri: user["profile_pic"] }}
             alt="bg"
             borderRadius={50}
             marginTop={-5}
           />
           <Text textAlign="center" fontSize="md" my={2}>
-            The Doogge
+            {user["name"]}
           </Text>
         </Box>
         <Box
@@ -60,7 +63,11 @@ function ProfileScreen({route, navigation}) {
             size="lg"
             _pressed={{ opacity: 0.6 }}
             marginX={5}
-            onPress={() => setMode("Saved")}
+            onPress={(e) => {
+              e.preventDefault()
+              setMode("Saved")
+              setData(user["savedFeed"])
+            }}
           >
             <Text
               color={mode === "Saved" ? "white" : "black"}
@@ -75,7 +82,11 @@ function ProfileScreen({route, navigation}) {
             size="lg"
             _pressed={{ opacity: 0.6 }}
             marginX={5}
-            onPress={() => setMode("Created")}
+            onPress={(e) => {
+              e.preventDefault()
+              setMode("Created")
+              setData(user["createdFeed"])
+            }}
           >
             <Text
               color={mode === "Created" ? "white" : "black"}
@@ -95,7 +106,11 @@ function ProfileScreen({route, navigation}) {
       <>
         <Topbar />
         <Box my={2}>
-          <MyList ListHeaderComponent={ListHeaderComponent} navigation={navigation}/>
+          <MyList
+            ListHeaderComponent={ListHeaderComponent}
+            navigation={navigation}
+            data={data}
+          />
         </Box>
       </>
     );
