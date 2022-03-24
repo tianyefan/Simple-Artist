@@ -41,7 +41,7 @@ function SignInScreen({ navigation }) {
               duration: 1000,
             });
             navigation.push("HomeTab", {
-              params: response.data,
+              params: { user: response.data, userId: userId },
               screen: "Profile",
             });
           })

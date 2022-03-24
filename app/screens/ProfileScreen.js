@@ -24,8 +24,10 @@ function ProfileScreen({ route, navigation }) {
   const [mode, setMode] = useState("Saved");
   const [data, setData] = useState([])
   //console.log(route.params);
-  const user = route.params
-  //console.log(user["profile_pic"])
+  const user = route.params.user
+  const userId = route.params.userId
+  console.log(user["profile_pic"])
+  console.log(userId)
   const ListHeaderComponent = () => {
     return (
       <Stack direction="column" alignItems="center">
@@ -110,6 +112,8 @@ function ProfileScreen({ route, navigation }) {
             ListHeaderComponent={ListHeaderComponent}
             navigation={navigation}
             data={data}
+            userId={userId}
+            mode={mode}
           />
         </Box>
       </>
