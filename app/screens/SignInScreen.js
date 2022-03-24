@@ -17,22 +17,22 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { stringify } from "@firebase/util";
+import serverUrl from "../util/serverUrl";
 import axios from "axios";
 function SignInScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [show, setShow] = React.useState(false);
   const toast = useToast();
-  const serverURL =
-    "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
+  //const serverURL =
+  // "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
 
   const handleSignIn = async () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (res) => {
         const userId = res.user.uid;
         await axios
-          .get(`${serverURL}/users/${userId}`)
+          .get(`${serverUrl}/users/${userId}`)
           .then((response) => {
             //console.log(response.data);
             toast.show({
@@ -41,7 +41,7 @@ function SignInScreen({ navigation }) {
               duration: 1000,
             });
             navigation.push("HomeTab", {
-              params: { user: response.data, userId: userId },
+              params: { user: response.data },
               screen: "Profile",
             });
           })

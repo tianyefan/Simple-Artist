@@ -1,8 +1,26 @@
 import React from "react";
 import { Box, Stack, FlatList, Text } from "native-base";
 import Card from "./Card";
+import axios from "axios";
+import serverUrl from "../util/serverUrl";
 function MyList(props) {
-  const [feed, setFeed] = React.useState([]) 
+  const [feed, setFeed] = React.useState(props.data);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await axios
+      .get(`${serverUrl}/users/${props.userId}`)
+      .then((res) => {
+        //console.log(res.data)
+        if (props.mode === "Saved") {
+          setFeed(res.data["savedFeed"]);
+        } else if (props.mode === "Created") {
+          setFeed(res.data["createdFeed"]);
+        }
+      })
+      .finally(() => setRefreshing(false))
+      .catch((err) => console.log(err));
+  };
   // const data = [
   //   {
   //     id: "id123",
@@ -78,11 +96,11 @@ function MyList(props) {
   //   },
   // ];
   const renderItem = (item) => {
-    return <Card uri={item.item.imgURL} navigation={props.navigation}/>;
+    return <Card uri={item.item.imgURL} navigation={props.navigation} />;
   };
   return (
     <FlatList
-      data={props.data}
+      data={feed}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       ListHeaderComponent={props.ListHeaderComponent}
@@ -100,6 +118,8 @@ function MyList(props) {
           </Text>
         </Box>
       }
+      refreshing={refreshing}
+      onRefresh={handleRefresh}
     />
   );
 }

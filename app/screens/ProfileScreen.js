@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-import {
-  FontAwesome5,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -12,22 +7,22 @@ import {
 import { Box, Text, Image, Button, Stack } from "native-base";
 import MyList from "../components/MyList";
 import Topbar from "../components/Topbar";
-import BottomBar from "../components/BottomBar";
 function ProfileScreen({ route, navigation }) {
   const imagescr =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
-  const prof_pic =
-    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
+  //const prof_pic =
+  //  "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
   });
   const [mode, setMode] = useState("Saved");
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   //console.log(route.params);
-  const user = route.params.user
-  const userId = route.params.userId
-  console.log(user["profile_pic"])
-  console.log(userId)
+  const user = route.params.user;
+  //console.log(user);
+  //const userId = route.params.userId
+  //console.log(user["profile_pic"])
+  //console.log(userId)
   const ListHeaderComponent = () => {
     return (
       <Stack direction="column" alignItems="center">
@@ -66,9 +61,9 @@ function ProfileScreen({ route, navigation }) {
             _pressed={{ opacity: 0.6 }}
             marginX={5}
             onPress={(e) => {
-              e.preventDefault()
-              setMode("Saved")
-              setData(user["savedFeed"])
+              e.preventDefault();
+              setMode("Saved");
+              setData(user["savedFeed"]);
             }}
           >
             <Text
@@ -85,9 +80,9 @@ function ProfileScreen({ route, navigation }) {
             _pressed={{ opacity: 0.6 }}
             marginX={5}
             onPress={(e) => {
-              e.preventDefault()
-              setMode("Created")
-              setData(user["createdFeed"])
+              e.preventDefault();
+              setMode("Created");
+              setData(user["createdFeed"]);
             }}
           >
             <Text
@@ -112,7 +107,7 @@ function ProfileScreen({ route, navigation }) {
             ListHeaderComponent={ListHeaderComponent}
             navigation={navigation}
             data={data}
-            userId={userId}
+            userId={user["id"]}
             mode={mode}
           />
         </Box>

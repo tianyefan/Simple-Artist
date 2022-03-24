@@ -19,8 +19,8 @@ import {
 } from "firebase/auth";
 import { async, stringify } from "@firebase/util";
 import axios from "axios";
-
-const serverURL = "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
+import serverUrl from "../util/serverUrl";
+//const serverURL = "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
 
 function SignUpScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
@@ -35,13 +35,14 @@ function SignUpScreen({ navigation }) {
         // make a post request to server and let server create
         //  a User and save to Firestore Storage
         userId = res.user.uid;
+        user["id"] = userId
         user["name"] = res.user.email;
-        user["src"] =
+        user["profile_pic"] =
           "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
       
         //console.log(JSON.stringify(user));
         await axios
-          .post(`${serverURL}/users/${userId}`, JSON.stringify(user))
+          .post(`${serverUrl}/users/${userId}`, JSON.stringify(user))
           .then((response) => {
             //console.log(response.data);
             toast.show({
