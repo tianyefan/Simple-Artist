@@ -3,10 +3,24 @@ import { Box, Fab, Icon } from "native-base";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import * as Animatable from "react-native-animatable";
+import { storage } from "../firebase/firebase";
+import { v4 as uuidv4 } from "uuid";
+import {
+  ref,
+  uploadString,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import axios from "axios";
+import serverUrl from "../util/serverUrl";
+import { supabase } from "../lib/supabase";
+import { PhoneMultiFactorGenerator } from "firebase/auth/react-native";
+
 function Create({ navigation }) {
   const AnimateFab = Animatable.createAnimatableComponent(Fab);
   const Fabref = useRef(null);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     if (open) {
       Fabref.current.transition(
@@ -24,25 +38,61 @@ function Create({ navigation }) {
       );
     }
   }, [open]);
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
 
-    ImagePicker.launchImageLibraryAsync({
+    await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    }).then((res) => {
-      //setOpen(false);
-      if (res.cancelled) {
-        setOpen((prevState) => !prevState);
-      }
-      if (!res.cancelled) {
-        navigation.push("MagicStack", {
-          uri: res.uri,
-        });
-      }
-    });
+      base64: true,
+    })
+      .then(async (res) => {
+        if (res.cancelled) {
+          setOpen((prevState) => !prevState);
+        }
+        if (!res.cancelled) {
+          // const fileName = `upload${uuidv4()}.jpg`;
+          // var formData = new FormData();
+          // formData.append("files", {
+          //   uri: res.uri,
+          //   name: fileName,
+          //   type: `image/jpg`,
+          // });
+
+          // const { data, error } = await supabase.storage
+          //   .from("simart-images")
+          //   .upload(fileName, formData);
+
+          // if (data) {
+          //   console.log(data);
+          // }
+
+          // if (error) {
+          //   console.log(error);
+          // }
+          await axios
+            .post(
+              `${serverUrl}/image`,
+              JSON.stringify({
+                base64: res.base64,
+              })
+            )
+            .then((result) => {
+              //console.log(result.data);
+              getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
+                console.log(url);
+                navigation.push("MagicStack", {
+                  uri: url,
+                });
+              });
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const takePhoto = async () => {
@@ -54,23 +104,57 @@ function Create({ navigation }) {
       return;
     }
 
-    let result = await ImagePicker.launchCameraAsync({
+    await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    });
+      base64: true,
+    })
+      .then(async (res) => {
+        if (res.cancelled) {
+          setOpen((prevState) => !prevState);
+        }
+        if (!res.cancelled) {
+          // const fileName = "testImage1";
+          // var formData = new FormData();
+          // formData.append("files", {
+          //   uri: res.uri,
+          //   name: fileName,
+          //   type: `image/jpg`,
+          // });
 
-    if (result.cancelled) {
-      setOpen((prevState) => !prevState);
-    }
+          // const { data, error } = await supabase.storage
+          //   .from("simart-images")
+          //   .upload(fileName, formData);
 
-    if (!result.cancelled) {
-      //setOpen(false);
-      navigation.push("MagicStack", {
-        uri: result.uri,
-      });
-    }
+          // if (data) {
+          //   console.log(data);
+          // }
+
+          // if (error) {
+          //   console.log(error);
+          // }
+          await axios
+            .post(
+              `${serverUrl}/image`,
+              JSON.stringify({
+                base64: res.base64,
+              })
+            )
+            .then((result) => {
+              //console.log(result.data);
+              getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
+                console.log(url);
+                navigation.push("MagicStack", {
+                  uri: url,
+                });
+              });
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -116,34 +200,6 @@ function Create({ navigation }) {
           ref={Fabref}
         />
       </Box>
-
-      {/* <Center safeArea>
-        <Actionsheet isOpen={isOpen} onClose={onClose}>
-          <Actionsheet.Content>
-            <Actionsheet.Header>
-              <Text fontSize={16}>Create</Text>
-            </Actionsheet.Header>
-            <Actionsheet.Item
-              onPress={pickImage}
-              startIcon={<MaterialIcons name="file-upload" size={30} />}
-            >
-              <Text>Upload a photo</Text>
-            </Actionsheet.Item>
-            <Actionsheet.Item
-              onPress={takePhoto}
-              startIcon={<MaterialIcons name="photo-camera" size={30} />}
-            >
-              <Text>Take a Photo</Text>
-            </Actionsheet.Item>
-            <Actionsheet.Item
-              onPress={onClose}
-              startIcon={<MaterialIcons name="close" size={30} />}
-            >
-              <Text>Cancel</Text>
-            </Actionsheet.Item>
-          </Actionsheet.Content>
-        </Actionsheet>
-      </Center> */}
     </>
   );
 }

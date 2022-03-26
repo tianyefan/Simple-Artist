@@ -10,8 +10,8 @@ import Topbar from "../components/Topbar";
 function ProfileScreen({ route, navigation }) {
   const imagescr =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
-  //const prof_pic =
-  //  "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
+  const prof_pic =
+    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
   });
@@ -38,7 +38,7 @@ function ProfileScreen({ route, navigation }) {
           <Image
             alignSelf="center"
             size="xs"
-            source={{ uri: user["profile_pic"] }}
+            source={{ uri: prof_pic }}
             alt="bg"
             borderRadius={50}
             marginTop={-5}
@@ -63,7 +63,7 @@ function ProfileScreen({ route, navigation }) {
             onPress={(e) => {
               e.preventDefault();
               setMode("Saved");
-              setData(user["savedFeed"]);
+              //setData([]);
             }}
           >
             <Text
@@ -82,7 +82,7 @@ function ProfileScreen({ route, navigation }) {
             onPress={(e) => {
               e.preventDefault();
               setMode("Created");
-              setData(user["createdFeed"]);
+              //setData([]);
             }}
           >
             <Text

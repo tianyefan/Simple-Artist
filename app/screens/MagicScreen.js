@@ -22,6 +22,10 @@ function MagicScreen({ route, navigation }) {
     DancingScript_400Regular,
   });
 
+  const handleTransform = async () => {
+    
+  }
+
   const handleOnPress = () => {
     navigation.push("PublishStack", {
       uri: image_uri,
@@ -58,11 +62,7 @@ function MagicScreen({ route, navigation }) {
               </Text>
             }
             _pressed={{ opacity: 0.7 }}
-            onPress={async () => {
-              setClick(true);
-              await delay(3000);
-              setFinish(true);
-            }}
+            onPress={handleTransform}
             bgColor="black"
             leftIcon={
               <FontAwesome5 name="feather-alt" size={24} color="white" />

@@ -17,6 +17,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { supabase } from "../lib/supabase";
 import { async, stringify } from "@firebase/util";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
@@ -28,18 +29,18 @@ function SignUpScreen({ navigation }) {
   const [show, setShow] = React.useState(false);
   const toast = useToast();
   const user = {};
-
+  const pro_pic =
+    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
   const handleSignUp = async () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (res) => {
         // make a post request to server and let server create
         //  a User and save to Firestore Storage
         userId = res.user.uid;
-        user["id"] = userId
+        user["id"] = userId;
         user["name"] = res.user.email;
-        user["profile_pic"] =
-          "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
-      
+        user["profile_pic"] = pro_pic;
+
         //console.log(JSON.stringify(user));
         await axios
           .post(`${serverUrl}/users/${userId}`, JSON.stringify(user))
@@ -58,6 +59,23 @@ function SignUpScreen({ navigation }) {
         toast.show({ description: stringify(err.code), placement: "bottom" });
         //console.log(err);
       });
+    //   const { user, error } = await supabase.auth.signUp({
+    //     email: email,
+    //     password: password,
+    //   });
+
+    //   if (user) {
+    //     console.log(user)
+    //     toast.show({
+    //       description: "Sign up successfully!",
+    //       placement: "bottom",
+    //       duration: 1000,
+    //     });
+    //     navigation.push("SignIn");
+    //   }
+    //   if (error) {
+    //     console.log(error)
+    //   }
   };
 
   return (

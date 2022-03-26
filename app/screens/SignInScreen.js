@@ -13,6 +13,7 @@ import {
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Platform, Keyboard } from "react-native";
 import auth from "../firebase/firebase";
+import { supabase } from "../lib/supabase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -48,9 +49,32 @@ function SignInScreen({ navigation }) {
           .catch((err) => console.log(err));
       })
       .catch((err) => {
-        toast.show({ description: stringify(err.code), placement: "bottom" });
+        toast.show({
+          description: JSON.stringify(err.code),
+          placement: "bottom",
+        });
         //console.log(err);
       });
+
+    // const { user, error } = await supabase.auth.signIn({
+    //   email: email,
+    //   password: password,
+    // });
+
+    // if (user) {
+    //   toast.show({
+    //     description: "Sign in !",
+    //     placement: "bottom",
+    //     duration: 1000,
+    //   });
+    //   navigation.push("HomeTab", {
+    //     params: { user : user },
+    //     screen: "Profile",
+    //   });
+    // }
+    // if (error) {
+    //   console.log(error);
+    // }
   };
   return (
     <>
