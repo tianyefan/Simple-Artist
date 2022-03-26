@@ -9,8 +9,12 @@ import {
   DancingScript_400Regular,
 } from "@expo-google-fonts/dancing-script";
 import AppLoading from "expo-app-loading";
+import serverUrl from "../util/serverUrl";
+import axios from "axios";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase/firebase";
 function MagicScreen({ route, navigation }) {
-  const { uri } = route.params;
+  const { uri, base64 } = route.params;
   let image_uri = uri;
   let doge_url =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
@@ -23,8 +27,29 @@ function MagicScreen({ route, navigation }) {
   });
 
   const handleTransform = async () => {
-    
-  }
+    //first upload the image to db
+    // make request to server and get back transfromed
+    // image
+    setClick(true);
+    await axios
+      .post(
+        `${serverUrl}/image`,
+        JSON.stringify({
+          base64: base64,
+        })
+      )
+      .then((result) => {
+        //console.log(result.data);
+        getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
+          //setFinish(true);
+          //console.log(url);
+          // make request to get neural transformed image
+          // should return image url of the the transformed image
+          
+        });
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleOnPress = () => {
     navigation.push("PublishStack", {

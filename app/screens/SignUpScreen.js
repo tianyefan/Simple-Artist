@@ -21,6 +21,7 @@ import { supabase } from "../lib/supabase";
 import { async, stringify } from "@firebase/util";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
+
 //const serverURL = "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
 
 function SignUpScreen({ navigation }) {

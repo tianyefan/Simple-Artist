@@ -14,12 +14,13 @@ import {
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
 import { supabase } from "../lib/supabase";
-import { PhoneMultiFactorGenerator } from "firebase/auth/react-native";
+
 
 function Create({ navigation }) {
   const AnimateFab = Animatable.createAnimatableComponent(Fab);
   const Fabref = useRef(null);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -50,10 +51,15 @@ function Create({ navigation }) {
       base64: true,
     })
       .then(async (res) => {
+        setLoading(true);
         if (res.cancelled) {
           setOpen((prevState) => !prevState);
         }
         if (!res.cancelled) {
+          navigation.push("MagicStack", {
+            uri: res.uri,
+            base64: res.base64,
+          });
           // const fileName = `upload${uuidv4()}.jpg`;
           // var formData = new FormData();
           // formData.append("files", {
@@ -73,23 +79,22 @@ function Create({ navigation }) {
           // if (error) {
           //   console.log(error);
           // }
-          await axios
-            .post(
-              `${serverUrl}/image`,
-              JSON.stringify({
-                base64: res.base64,
-              })
-            )
-            .then((result) => {
-              //console.log(result.data);
-              getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
-                console.log(url);
-                navigation.push("MagicStack", {
-                  uri: url,
-                });
-              });
-            })
-            .catch((err) => console.log(err));
+          //     await axios
+          //       .post(
+          //         `${serverUrl}/image`,
+          //         JSON.stringify({
+          //           base64: res.base64,
+          //         })
+          //       )
+          //       .then((result) => {
+          //         //console.log(result.data);
+          //         setLoading(false)
+          //         getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
+          //           console.log(url);
+
+          //       });
+          //      })
+          //       .catch((err) => console.log(err));
         }
       })
       .catch((err) => console.log(err));
@@ -111,12 +116,16 @@ function Create({ navigation }) {
       quality: 1,
       base64: true,
     })
-      .then(async (res) => {
-        if (res.cancelled) {
-          setOpen((prevState) => !prevState);
-        }
-        if (!res.cancelled) {
-          // const fileName = "testImage1";
+    .then(async (res) => {
+      if (res.cancelled) {
+        setOpen((prevState) => !prevState);
+      }
+      if (!res.cancelled) {
+        navigation.push("MagicStack", {
+          uri: res.uri,
+          base64: res.base64,
+        });
+        // const fileName = "testImage1";
           // var formData = new FormData();
           // formData.append("files", {
           //   uri: res.uri,
@@ -135,23 +144,20 @@ function Create({ navigation }) {
           // if (error) {
           //   console.log(error);
           // }
-          await axios
-            .post(
-              `${serverUrl}/image`,
-              JSON.stringify({
-                base64: res.base64,
-              })
-            )
-            .then((result) => {
-              //console.log(result.data);
-              getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
-                console.log(url);
-                navigation.push("MagicStack", {
-                  uri: url,
-                });
-              });
-            })
-            .catch((err) => console.log(err));
+          //     await axios
+          //       .post(
+          //         `${serverUrl}/image`,
+          //         JSON.stringify({
+          //           base64: res.base64,
+          //         })
+          //       )
+          //       .then((result) => {
+          //         //console.log(result.data);
+          //         getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
+          //           console.log(url);
+          //         });
+          //       })
+          //       .catch((err) => console.log(err));
         }
       })
       .catch((err) => console.log(err));
