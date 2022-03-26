@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Topbar from "../components/Topbar";
 import {
-  Box,
   Text,
   Input,
   Stack,
@@ -10,23 +9,17 @@ import {
   Button,
   useToast,
 } from "native-base";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Platform, Keyboard } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Platform } from "react-native";
 import auth from "../firebase/firebase";
-import { supabase } from "../lib/supabase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import serverUrl from "../util/serverUrl";
 import axios from "axios";
 function SignInScreen({ navigation }) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [show, setShow] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
   const toast = useToast();
-  //const serverURL =
-  // "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
 
   const handleSignIn = async () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -35,7 +28,6 @@ function SignInScreen({ navigation }) {
         await axios
           .get(`${serverUrl}/users/${userId}`)
           .then((response) => {
-            //console.log(response.data);
             toast.show({
               description: "Sign in !",
               placement: "bottom",
@@ -52,28 +44,7 @@ function SignInScreen({ navigation }) {
           description: JSON.stringify(err.code),
           placement: "bottom",
         });
-        //console.log(err);
       });
-
-    // const { user, error } = await supabase.auth.signIn({
-    //   email: email,
-    //   password: password,
-    // });
-
-    // if (user) {
-    //   toast.show({
-    //     description: "Sign in !",
-    //     placement: "bottom",
-    //     duration: 1000,
-    //   });
-    //   navigation.push("HomeTab", {
-    //     params: { user : user },
-    //     screen: "Profile",
-    //   });
-    // }
-    // if (error) {
-    //   console.log(error);
-    // }
   };
   return (
     <>

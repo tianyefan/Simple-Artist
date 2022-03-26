@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Topbar from "../components/Topbar";
 import {
-  Box,
   Text,
   Input,
   KeyboardAvoidingView,
@@ -10,19 +9,12 @@ import {
   Icon,
   useToast,
 } from "native-base";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Platform, Keyboard } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Platform } from "react-native";
 import auth from "../firebase/firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { supabase } from "../lib/supabase";
-import { async, stringify } from "@firebase/util";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
-
-//const serverURL = "https://3d3d-2601-647-5701-4a40-7c47-b4f1-9f6d-c651.ngrok.io";
 
 function SignUpScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
@@ -42,11 +34,9 @@ function SignUpScreen({ navigation }) {
         user["name"] = res.user.email;
         user["profile_pic"] = pro_pic;
 
-        //console.log(JSON.stringify(user));
         await axios
           .post(`${serverUrl}/users/${userId}`, JSON.stringify(user))
           .then((response) => {
-            //console.log(response.data);
             toast.show({
               description: "Sign up successfully!",
               placement: "bottom",
@@ -58,25 +48,7 @@ function SignUpScreen({ navigation }) {
       })
       .catch((err) => {
         toast.show({ description: stringify(err.code), placement: "bottom" });
-        //console.log(err);
       });
-    //   const { user, error } = await supabase.auth.signUp({
-    //     email: email,
-    //     password: password,
-    //   });
-
-    //   if (user) {
-    //     console.log(user)
-    //     toast.show({
-    //       description: "Sign up successfully!",
-    //       placement: "bottom",
-    //       duration: 1000,
-    //     });
-    //     navigation.push("SignIn");
-    //   }
-    //   if (error) {
-    //     console.log(error)
-    //   }
   };
 
   return (

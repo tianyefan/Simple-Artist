@@ -19,8 +19,7 @@ function MagicScreen({ route, navigation }) {
   const [click, setClick] = useState(false);
   const [finish, setFinish] = useState(false);
   const [imageUrl, setImageUrl] = useState(image_uri);
-  //const [tag, setTag] = useState("Other");
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
   });
@@ -38,12 +37,9 @@ function MagicScreen({ route, navigation }) {
         })
       )
       .then((result) => {
-        //console.log(result.data);
+        
         getDownloadURL(ref(storage, result.data["ref"])).then(async (url) => {
-          //setFinish(true);
-          //console.log(url);
-          // make request to get neural transformed image
-          // should return image url of the the transformed image
+         
           await axios
             .post(
               `${serverUrl}/transform`,
