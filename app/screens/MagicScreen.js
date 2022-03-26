@@ -16,10 +16,9 @@ import { storage } from "../firebase/firebase";
 function MagicScreen({ route, navigation }) {
   const { uri, base64 } = route.params;
   let image_uri = uri;
-  let doge_url =
-    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
   const [click, setClick] = useState(false);
   const [finish, setFinish] = useState(false);
+  const [imageUrl, setImageUrl] = useState(image_uri);
   //const [tag, setTag] = useState("Other");
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
   let [fontsLoaded] = useFonts({
@@ -40,12 +39,27 @@ function MagicScreen({ route, navigation }) {
       )
       .then((result) => {
         //console.log(result.data);
-        getDownloadURL(ref(storage, result.data["ref"])).then((url) => {
+        getDownloadURL(ref(storage, result.data["ref"])).then(async (url) => {
           //setFinish(true);
           //console.log(url);
           // make request to get neural transformed image
           // should return image url of the the transformed image
-          
+          await axios
+            .post(
+              `${serverUrl}/transform`,
+              JSON.stringify({
+                contentUrl: url,
+              })
+            )
+            .then((res) => {
+              getDownloadURL(ref(storage, res.data["ref"])).then(
+                (transformedUrl) => {
+                  setFinish(true);
+                  setImageUrl(transformedUrl);
+                }
+              );
+            })
+            .catch((err) => console.log(err));
         });
       })
       .catch((err) => console.log(err));
@@ -53,7 +67,7 @@ function MagicScreen({ route, navigation }) {
 
   const handleOnPress = () => {
     navigation.push("PublishStack", {
-      uri: image_uri,
+      uri: imageUrl,
     });
   };
   if (!fontsLoaded) {
@@ -64,7 +78,7 @@ function MagicScreen({ route, navigation }) {
         <Topbar />
         <Box alignItems="center" justifyContent="center">
           <Image
-            src={click && finish ? doge_url : image_uri}
+            src={imageUrl}
             w={300}
             h={300}
             margin="auto"

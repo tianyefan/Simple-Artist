@@ -43,7 +43,6 @@ function SignInScreen({ navigation }) {
             });
             navigation.push("HomeTab", {
               params: { user: response.data },
-              screen: "Profile",
             });
           })
           .catch((err) => console.log(err));
