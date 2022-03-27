@@ -43,8 +43,9 @@ function PublishScreen({ route, navigation }) {
     // make put request to update user profile
     // direct page to homeTab after successfully doing above
     await AsyncStorage.getItem("user")
-      .then(async (res) => {
-        Feed.author = JSON.parse(res).name;
+      .then(async (user) => {
+        Feed.author = JSON.parse(user).name;
+        Feed.profile_pic = JSON.parse(user).profile_pic;
         Feed.id = id;
         Feed.imageSrc = uri;
         Feed.tag = tag;
@@ -56,24 +57,25 @@ function PublishScreen({ route, navigation }) {
           .then(async (res) => {
             const feed = res.data;
             //make put request to update user profile
-            await AsyncStorage.getItem("user").then(async (res) => {
-              User.id = JSON.parse(res).id;
-              User.name = JSON.parse(res).name;
-              User.profile_pic = JSON.parse(res).profile_pic;
-              User.createdFeed = JSON.parse(res).createdFeed.concat(
-                feed
-              );
-              User.savedFeed = JSON.parse(res).savedFeed;
-              console.log(User)
+            await axios
+              .get(`${serverUrl}/users/${JSON.parse(user).id}`)
+              .then(async (res) => {
+                User.id = res.data.id;
+                User.name = res.data.name;
+                User.profile_pic = res.data.profile_pic;
+                User.createdFeed = res.data.createdFeed;
+                User.createdFeed.concat(feed);
+                User.savedFeed = res.data.savedFeed;
+                console.log(User.createdFeed);
 
-              await axios
-                .put(`${serverUrl}/users/${User.id}`, JSON.stringify(User))
-                .then((res) => {
-                  console.log(res.data);
-                  navigation.push("HomeTab");
-                })
-                .catch((err) => console.log(err));
-            });
+                await axios
+                  .put(`${serverUrl}/users/${User.id}`, JSON.stringify(User))
+                  .then((res) => {
+                    //console.log(res.data);
+                    navigation.push("HomeTab");
+                  })
+                  .catch((err) => console.log(err));
+              });
           })
           .catch((err) => console.log(err));
       })

@@ -79,13 +79,13 @@ function PersonScreen({ navigation }) {
             onPress={async (e) => {
               e.preventDefault();
               setMode("Saved");
-              await axios
-                .get(`${serverUrl}/users/${user.id}`)
-                .then((res) => {
-                  //console.log(res.data["savedFeed"])
-                  setData(res.data["savedFeed"]);
-                })
-                .catch((err) => console.log(err));
+              //   await axios
+              //     .get(`${serverUrl}/users/${user.id}`)
+              //     .then((res) => {
+              //       //console.log(res.data["savedFeed"])
+              //       setData(res.data["savedFeed"]);
+              //     })
+              //     .catch((err) => console.log(err));
             }}
           >
             <Text
@@ -104,13 +104,13 @@ function PersonScreen({ navigation }) {
             onPress={async (e) => {
               e.preventDefault();
               setMode("Created");
-              await axios
-                .get(`${serverUrl}/users/${user.id}`)
-                .then((res) => {
-                  //console.log(res.data["createdFeed"])
-                  setData(res.data["createdFeed"]);
-                })
-                .catch((err) => console.log(err));
+              // await axios
+              //   .get(`${serverUrl}/users/${user.id}`)
+              //   .then((res) => {
+              //     //console.log(res.data["createdFeed"])
+              //     setData(res.data["createdFeed"]);
+              //   })
+              //   .catch((err) => console.log(err));
             }}
           >
             <Text
@@ -130,15 +130,17 @@ function PersonScreen({ navigation }) {
     return (
       <>
         <Topbar />
-        <Box my={2}>
-          <MyList
-            ListHeaderComponent={ListHeaderComponent}
-            navigation={navigation}
-            data={data}
-            userId={user.id}
-            mode={mode}
-          />
-        </Box>
+        {user && (
+          <Box my={2}>
+            <MyList
+              ListHeaderComponent={ListHeaderComponent}
+              navigation={navigation}
+              data={data}
+              userId={user.id}
+              mode={mode}
+            />
+          </Box>
+        )}
       </>
     );
   }

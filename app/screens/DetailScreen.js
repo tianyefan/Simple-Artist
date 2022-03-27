@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Image,
@@ -14,6 +14,8 @@ import Topbar from "../components/Topbar";
 import Comment from "../components/Comment";
 import { Platform, Keyboard } from "react-native";
 import nextId from "react-id-generator";
+import axios from "axios";
+import serverUrl from "../util/serverUrl";
 const comments = [
   {
     id: "id123",
@@ -41,8 +43,9 @@ const comments = [
   },
 ];
 function DetailScreen({ route, navigation }) {
-  const [data, setData] = useState(comments)
-  const [text, setText] = useState('')
+  const [data, setData] = useState([]);
+  const [text, setText] = useState("");
+  const [feed, setFeed] = useState({});
   const renderItem = (item) => {
     //console.log(item);
     return (
@@ -53,9 +56,20 @@ function DetailScreen({ route, navigation }) {
       />
     );
   };
-  const { uri } = route.params;
+  const { uri, feedId } = route.params;
   const prof_pic =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
+
+  useEffect(async () => {
+    //make get reques to get Feed object via id
+    await axios
+      .get(`${serverUrl}/feeds/${feedId}`)
+      .then((res) => {
+        setFeed(res.data);
+        setData(res.data.comments)
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const Detail = () => {
     return (
@@ -63,14 +77,14 @@ function DetailScreen({ route, navigation }) {
         <Box flexDir="row" alignItems="center" justifyContent="center" my={2}>
           <Pressable onPress={() => navigation.navigate("Profile")}>
             <Image
-              src={prof_pic}
+              src={feed.profile_pic}
               borderRadius={50}
               size="xs"
               mx={2}
               alt="pro_pic"
             />
           </Pressable>
-          <Text>The Doogge</Text>
+          <Text>{feed.author}</Text>
         </Box>
         <Box shadow="5">
           <Image
@@ -85,26 +99,26 @@ function DetailScreen({ route, navigation }) {
         </Box>
         <Box my={2}>
           <Text fontSize={25} mx={7}>
-            Example Title
+            {feed.imageName}
           </Text>
         </Box>
         <Box my={2}>
-          <Text mx={7}>#Tag</Text>
+          <Text mx={7}>{`#${feed.tag}`}</Text>
         </Box>
       </Stack>
     );
   };
 
   const handlePress = () => {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
     const comment = {
-      id: nextId('comment'),
+      id: nextId("comment"),
       imgURL: prof_pic,
-      text: text
-    }
-    setData([...data,comment])
-    setText('')
-  }
+      text: text,
+    };
+    setData([...data, comment]);
+    setText("");
+  };
   return (
     <>
       <Topbar />
@@ -114,7 +128,9 @@ function DetailScreen({ route, navigation }) {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={Detail}
       />
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <Stack
           direction="row"
           alignItems="center"
@@ -131,11 +147,13 @@ function DetailScreen({ route, navigation }) {
               placeholder="Please give your kind comment here"
               w={230}
               value={text}
-              onChangeText={text => setText(text)}
+              onChangeText={(text) => setText(text)}
             />
           </Box>
           <Box mx={1}>
-            <Button borderRadius={10} onPress={handlePress}>Send</Button>
+            <Button borderRadius={10} onPress={handlePress}>
+              Send
+            </Button>
           </Box>
         </Stack>
       </KeyboardAvoidingView>

@@ -95,7 +95,7 @@ const Masonry = ({ navigation }) => {
       keyExtrator={(item) => item.id}
       data={allfeeds}
       renderItem={({ item }) => (
-        <Feed uri={item.imageSrc} key={item.id} navigation={navigation} />
+        <Feed uri={item.imageSrc} feedId={item.id} navigation={navigation} />
       )}
       ListFooterComponent={
         <Box

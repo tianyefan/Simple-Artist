@@ -5,11 +5,12 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-function Feed({ uri, navigation }) {
+function Feed({ uri, feedId, navigation }) {
   const [save, setSave] = React.useState(false);
   const handlePress = () => {
     navigation.push("Detail", {
       uri: uri,
+      feedId: feedId,
     });
   };
   return (
