@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Text, Image, Stack, Pressable } from "native-base";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Comment({ uri, comment, navigation }) {
+  const [name, setName] = useState('')
+  useEffect(async () => {
+    await AsyncStorage.getItem("user")
+      .then((res) => {
+        //console.log(JSON.parse(res).name)
+        setName(JSON.parse(res).name)
+      })
+      .catch(err => console.log(err))
+  },[])
   return (
     <Stack
       direction="column"
@@ -19,7 +28,7 @@ function Comment({ uri, comment, navigation }) {
         >
           <Image src={uri} size="xs" borderRadius={50} alt="pro_image" />
           <Text mx={2} my="auto">
-            The Doogge
+            {name === '' ? 'Guest' : name }
           </Text>
         </Box>
       </Pressable>

@@ -16,6 +16,8 @@ import { Platform, Keyboard } from "react-native";
 import nextId from "react-id-generator";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 const comments = [
   {
     id: "id123",
@@ -50,8 +52,8 @@ function DetailScreen({ route, navigation }) {
     //console.log(item);
     return (
       <Comment
-        uri={item.item.imgURL}
-        comment={item.item.text}
+        uri={item.item.commenter}
+        comment={item.item.comment}
         navigation={navigation}
       />
     );
@@ -66,7 +68,7 @@ function DetailScreen({ route, navigation }) {
       .get(`${serverUrl}/feeds/${feedId}`)
       .then((res) => {
         setFeed(res.data);
-        setData(res.data.comments)
+        setData(res.data.comments);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -75,15 +77,13 @@ function DetailScreen({ route, navigation }) {
     return (
       <Stack direction="column" my={2}>
         <Box flexDir="row" alignItems="center" justifyContent="center" my={2}>
-          <Pressable onPress={() => navigation.navigate("Profile")}>
-            <Image
-              src={feed.profile_pic}
-              borderRadius={50}
-              size="xs"
-              mx={2}
-              alt="pro_pic"
-            />
-          </Pressable>
+          <Image
+            src={feed.profile_pic}
+            borderRadius={50}
+            size="xs"
+            mx={2}
+            alt="pro_pic"
+          />
           <Text>{feed.author}</Text>
         </Box>
         <Box shadow="5">
@@ -109,15 +109,58 @@ function DetailScreen({ route, navigation }) {
     );
   };
 
-  const handlePress = () => {
+  const handlePress = async () => {
+    // make post request to create Comment,
+    // make put request to update responding Feed
+    // after updating feed, setData with new comment
+    // get user from AsyncStorage
     Keyboard.dismiss();
-    const comment = {
-      id: nextId("comment"),
-      imgURL: prof_pic,
-      text: text,
-    };
-    setData([...data, comment]);
-    setText("");
+    const Comment = {};
+    const commentId = uuid.v4();
+    const Feed = {};
+    await AsyncStorage.getItem("user")
+      .then(async (res) => {
+        Comment.commenter = JSON.parse(res).profile_pic;
+        Comment.id = commentId;
+        Comment.comment = text;
+        Comment.forWhich = feedId;
+        await axios
+          .post(`${serverUrl}/comments/${commentId}`, JSON.stringify(Comment))
+          .then(async (res) => {
+            //console.log(res.data);
+            const newcomment = res.data;
+            // get feed
+            // update feed
+            await axios
+              .get(`${serverUrl}/feeds/${feedId}`)
+              .then(async (res) => {
+                Feed.author = res.data.author;
+                Feed.profile_pic = res.data.profile_pic;
+                Feed.id = res.data.id;
+                Feed.imageSrc = res.data.imageSrc;
+                Feed.tag = res.data.tag;
+                Feed.imageName = res.data.imageName;
+                Feed.comments = [...res.data.comments, newcomment];
+                Feed.savedBy = res.data.savedBy;
+                await axios
+                  .put(`${serverUrl}/feeds/${feedId}`, JSON.stringify(Feed))
+                  .then((res) => {
+                    //console.log(res.data);
+                    setData(res.data.comments);
+                    setText("");
+                  })
+                  .catch((err) => console.log(err));
+              });
+          });
+      })
+      .catch((err) => console.log(err));
+    // const comment = {
+    //   id: nextId("comment"),
+    //   imgURL: prof_pic,
+    //   text: text,
+    // };
+    // setData([...data, comment]);
+    // setText("");
   };
   return (
     <>

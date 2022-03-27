@@ -21,19 +21,19 @@ import { Platform, Keyboard } from "react-native";
 function LoginScreen({ navigation }) {
   const IMAGES = [
     {
-      illustration: "https://i.imgur.com/UYiroysl.jpg",
+      uri: "https://firebasestorage.googleapis.com/v0/b/simart-5a0ac.appspot.com/o/Masterpiece%2Fstarry-night-print-by-vincent-van-gogh-vincent-van-gogh.jpg?alt=media&token=2349af90-d260-44cc-bf99-ca8e0d0aabdc",
     },
     {
-      illustration: "https://i.imgur.com/UPrs1EWl.jpg",
+      uri: "https://firebasestorage.googleapis.com/v0/b/simart-5a0ac.appspot.com/o/Masterpiece%2F800px-Monet_-_Impression%2C_Sunrise.jpg?alt=media&token=43d0b54c-8800-418b-a7de-da450fb3fccf",
     },
     {
-      illustration: "https://i.imgur.com/MABUbpDl.jpg",
+      uri: "https://firebasestorage.googleapis.com/v0/b/simart-5a0ac.appspot.com/o/Masterpiece%2F700px-Monet_-_Monets_Garten_in_Giverny.jpg?alt=media&token=7434c97f-34ee-450d-abe4-ce9610de1543",
     },
     {
-      illustration: "https://i.imgur.com/KZsmUi2l.jpg",
+      uri: "https://firebasestorage.googleapis.com/v0/b/simart-5a0ac.appspot.com/o/Masterpiece%2F540px-Claude_Monet_-_The_Magpie_-_Google_Art_Project.jpg?alt=media&token=1fdc117d-2f0b-4e12-89ce-fc2ff591dbd7",
     },
     {
-      illustration: "https://i.imgur.com/2nCt3Sbl.jpg",
+      uri: "https://firebasestorage.googleapis.com/v0/b/simart-5a0ac.appspot.com/o/Masterpiece%2FVincent_van_Gogh_-_Almond_blossom_-_Google_Art_Project.jpg?alt=media&token=4b56eafa-939e-4bde-9c2d-e51dc164a0eb",
     },
   ];
   const handleLogin = () => {
@@ -47,7 +47,7 @@ function LoginScreen({ navigation }) {
   let renderItem = ({ item }) => {
     return (
       <Image
-        source={{ uri: item.illustration }}
+        source={{ uri: item.uri }}
         w={300}
         h={200}
         mt={10}
