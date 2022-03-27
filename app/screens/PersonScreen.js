@@ -54,13 +54,13 @@ function PersonScreen({ navigation }) {
           <Image
             alignSelf="center"
             size="xs"
-            source={{ uri: user["profile_pic"] }}
+            source={{ uri: user.profile_pic }}
             alt="bg"
             borderRadius={50}
             marginTop={-5}
           />
           <Text textAlign="center" fontSize="md" my={2}>
-            The Doodge
+            {user.name}
           </Text>
         </Box>
         <Box

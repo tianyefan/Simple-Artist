@@ -63,10 +63,10 @@ function PublishScreen({ route, navigation }) {
                 User.id = res.data.id;
                 User.name = res.data.name;
                 User.profile_pic = res.data.profile_pic;
-                User.createdFeed = res.data.createdFeed;
-                User.createdFeed.concat(feed);
+                User.createdFeed = [...res.data.createdFeed,feed];
+                //User.createdFeed.concat(feed);
                 User.savedFeed = res.data.savedFeed;
-                console.log(User.createdFeed);
+                //console.log(User.createdFeed);
 
                 await axios
                   .put(`${serverUrl}/users/${User.id}`, JSON.stringify(User))

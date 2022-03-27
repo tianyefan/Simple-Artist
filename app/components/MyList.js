@@ -96,7 +96,7 @@ function MyList(props) {
   //   },
   // ];
   const renderItem = (item) => {
-    return <Card uri={item.item.imageSrc} navigation={props.navigation} />;
+    return <Card uri={item.item.imageSrc} feedId={item.item.id} navigation={props.navigation} />;
   };
   return (
     <FlatList

@@ -13,7 +13,7 @@ import {
 } from "firebase/storage";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
-import { supabase } from "../lib/supabase";
+//import { supabase } from "../lib/supabase";
 
 
 function Create({ navigation }) {

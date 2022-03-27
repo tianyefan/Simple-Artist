@@ -13,7 +13,7 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-function Card({ uri, navigation }) {
+function Card({ uri, feedId, navigation }) {
   return (
     <Stack
       flexDir="row"
@@ -24,11 +24,14 @@ function Card({ uri, navigation }) {
       alignItems="center"
       h={140}
     >
-      <Pressable onPress={() => {
-        navigation.push('Detail', {
-          uri: uri
-        })
-      }}>
+      <Pressable
+        onPress={() => {
+          navigation.push("Detail", {
+            uri: uri,
+            feedId: feedId,
+          });
+        }}
+      >
         <Box alignSelf="center" justifyContent="center" my={5}>
           <Image
             source={{ uri: uri }}

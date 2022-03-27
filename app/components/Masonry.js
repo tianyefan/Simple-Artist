@@ -81,6 +81,7 @@ const data = [
 
 const Masonry = ({ navigation }) => {
   const [allfeeds, setAllFeeds] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
   useEffect(async () => {
     await axios
       .get(`${serverUrl}/feeds`)
@@ -90,6 +91,16 @@ const Masonry = ({ navigation }) => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const handleRefresh = async () => {
+    setRefreshing(true)
+    await axios.get(`${serverUrl}/feeds`)
+      .then(res => {
+        setAllFeeds(res.data)
+      })
+      .catch(err => console.log(err))
+      .finally(setRefreshing(false))
+  }
   return (
     <FlatList
       keyExtrator={(item) => item.id}
@@ -110,6 +121,8 @@ const Masonry = ({ navigation }) => {
           </Text>
         </Box>
       }
+      refreshing={refreshing}
+      onRefresh={handleRefresh}
     />
   );
 };

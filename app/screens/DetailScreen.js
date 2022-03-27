@@ -144,7 +144,7 @@ function DetailScreen({ route, navigation }) {
             <Input
               type="text"
               variant="rounded"
-              placeholder="Please give your kind comment here"
+              placeholder="Write your kind comment here"
               w={230}
               value={text}
               onChangeText={(text) => setText(text)}
