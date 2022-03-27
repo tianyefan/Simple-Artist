@@ -16,6 +16,13 @@ import {
 } from "@expo-google-fonts/dancing-script";
 import AppLoading from "expo-app-loading";
 import { Platform } from "react-native";
+import axios from "axios";
+import serverUrl from "../util/serverUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+
+
 function PublishScreen({ route, navigation }) {
   //console.log(route.params);
   const [tag, setTag] = useState("Other");
@@ -23,6 +30,17 @@ function PublishScreen({ route, navigation }) {
     DancingScript_400Regular,
     DancingScript_700Bold,
   });
+
+  const handlePublish = async () => {
+      // make post request to create Feed
+      // make put request to update user profile
+      // direct page to homeTab after successfully doing above
+      await AsyncStorage.getItem('user')
+        .then(async (res) => {
+          
+        })
+      axios.post(``)
+  }
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -166,9 +184,7 @@ function PublishScreen({ route, navigation }) {
               fontFamily="DancingScript_400Regular"
               fontSize={20}
               my="auto"
-              onPress={() => {
-                navigation.push("HomeTab");
-              }}
+              onPress={handlePublish}
             >
               Publish
             </Text>

@@ -9,6 +9,7 @@ import { LogBox } from "react-native";
 import LoginScreen from "./app/screens/LoginScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
+import PersonScreen from "./app/screens/PersonScreen";
 import MagicScreen from "./app/screens/MagicScreen";
 import PublishScreen from "./app/screens/PublishScreen";
 import DetailScreen from "./app/screens/DetailScreen";
@@ -37,7 +38,7 @@ export default function App() {
 
             if (route.name === "Home") {
               iconName = focused ? "home" : "home-outline";
-            } else if (route.name === "Profile") {
+            } else if (route.name === "Person") {
               iconName = focused ? "person" : "person-outline";
             }
 
@@ -50,7 +51,8 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Person" component={PersonScreen}/>
+        {/* <Tab.Screen name="Profile" component={ProfileScreen} /> */}
       </Tab.Navigator>
     );
   };

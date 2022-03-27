@@ -10,7 +10,7 @@ import {
   useToast,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
 import auth from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import serverUrl from "../util/serverUrl";
@@ -26,17 +26,20 @@ function SignInScreen({ navigation }) {
 
   const saveUser = async (response) => {
     await AsyncStorage.setItem("user", JSON.stringify(response.data))
-    .then(() => {
-      toast.show({
-        description: "Sign in !",
-        placement: "bottom",
-        duration: 1000,
-      });
-      navigation.push("HomeTab");
-    })
-    .catch(
-      (err) => console.log(err)
-    );
+      .then(async () => {
+        await AsyncStorage.getItem("user")
+          .then((res) => {
+            //console.log(JSON.parse(res).name);
+            toast.show({
+              description: "Sign in !",
+              placement: "bottom",
+              duration: 1000,
+            });
+            navigation.push("HomeTab");
+          })
+          .catch((err) => Alert(err));
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleSignIn = async () => {
