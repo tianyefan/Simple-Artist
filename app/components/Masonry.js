@@ -1,7 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 //import MasonryList from "@react-native-seoul/masonry-list";
 import { Box, Stack, FlatList, Image, Text } from "native-base";
 import Feed from "./Feed";
+import axios from "axios";
+import serverUrl from "../util/serverUrl";
 const data = [
   {
     id: "id123",
@@ -74,15 +76,27 @@ const data = [
     imgURL:
       "https://apicms.thestar.com.my/uploads/images/2020/02/21/570850.jpg",
     text: "Chair and Table",
-  }
+  },
 ];
 
-const Masonry = ({navigation}) => {
+const Masonry = ({ navigation }) => {
+  const [allfeeds, setAllFeeds] = useState([]);
+  useEffect(async () => {
+    await axios
+      .get(`${serverUrl}/feeds`)
+      .then((res) => {
+        //console.log(res.data);
+        setAllFeeds(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <FlatList
       keyExtrator={(item) => item.id}
-      data={data}
-      renderItem={({ item }) => <Feed uri={item.imgURL} key={item.id} navigation={navigation}/>}
+      data={allfeeds}
+      renderItem={({ item }) => (
+        <Feed uri={item.imageSrc} key={item.id} navigation={navigation} />
+      )}
       ListFooterComponent={
         <Box
           w="100%"

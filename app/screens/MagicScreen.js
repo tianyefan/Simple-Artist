@@ -19,7 +19,7 @@ function MagicScreen({ route, navigation }) {
   const [click, setClick] = useState(false);
   const [finish, setFinish] = useState(false);
   const [imageUrl, setImageUrl] = useState(image_uri);
-  
+  const [id, setId] = useState('')
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
   });
@@ -51,6 +51,7 @@ function MagicScreen({ route, navigation }) {
               getDownloadURL(ref(storage, res.data["ref"])).then(
                 (transformedUrl) => {
                   setFinish(true);
+                  setId(String(res.data["ref"]).substring(13))
                   setImageUrl(transformedUrl);
                 }
               );
@@ -64,6 +65,7 @@ function MagicScreen({ route, navigation }) {
   const handleOnPress = () => {
     navigation.push("PublishStack", {
       uri: imageUrl,
+      id: id
     });
   };
   if (!fontsLoaded) {

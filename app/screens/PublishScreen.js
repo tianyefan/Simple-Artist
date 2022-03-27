@@ -19,28 +19,66 @@ import { Platform } from "react-native";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
-
+import { async } from "@firebase/util";
 
 function PublishScreen({ route, navigation }) {
+  const { uri, id } = route.params;
   //console.log(route.params);
   const [tag, setTag] = useState("Other");
+  const [imageName, setImageName] = useState("");
+  // const [userId, setUserId] = useState('');
+  // const [profile_pic, setProfile_pic] = useState('')
+  // const [userName, setuserName] = useState
+  //const [user, setUser] = useState({})
+
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
     DancingScript_700Bold,
   });
 
+  const Feed = {};
+  const User = {};
   const handlePublish = async () => {
-      // make post request to create Feed
-      // make put request to update user profile
-      // direct page to homeTab after successfully doing above
-      await AsyncStorage.getItem('user')
-        .then(async (res) => {
-          
-        })
-      axios.post(``)
-  }
+    // make post request to create Feed
+    // make put request to update user profile
+    // direct page to homeTab after successfully doing above
+    await AsyncStorage.getItem("user")
+      .then(async (res) => {
+        Feed.author = JSON.parse(res).name;
+        Feed.id = id;
+        Feed.imageSrc = uri;
+        Feed.tag = tag;
+        Feed.imageName = imageName;
+        Feed.comments = [];
+        Feed.savedBy = [];
+        await axios
+          .post(`${serverUrl}/feeds/${id}`, JSON.stringify(Feed))
+          .then(async (res) => {
+            const feed = res.data;
+            //make put request to update user profile
+            await AsyncStorage.getItem("user").then(async (res) => {
+              User.id = JSON.parse(res).id;
+              User.name = JSON.parse(res).name;
+              User.profile_pic = JSON.parse(res).profile_pic;
+              User.createdFeed = JSON.parse(res).createdFeed.concat(
+                feed
+              );
+              User.savedFeed = JSON.parse(res).savedFeed;
+              console.log(User)
+
+              await axios
+                .put(`${serverUrl}/users/${User.id}`, JSON.stringify(User))
+                .then((res) => {
+                  console.log(res.data);
+                  navigation.push("HomeTab");
+                })
+                .catch((err) => console.log(err));
+            });
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  };
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -59,6 +97,8 @@ function PublishScreen({ route, navigation }) {
             w={280}
             alignSelf="center"
             marginTop={10}
+            value={imageName}
+            onChangeText={(text) => setImageName(text)}
             fontSize={18}
             fontWeight="bold"
             fontFamily="DancingScript_700Bold"
@@ -66,7 +106,7 @@ function PublishScreen({ route, navigation }) {
             my={1}
           />
           <Image
-            src={route.params.uri}
+            src={uri}
             w={200}
             h={200}
             mx="auto"
@@ -176,7 +216,6 @@ function PublishScreen({ route, navigation }) {
             mx="auto"
             my={5}
             borderRadius={10}
-            bgColor="red.500"
             _pressed={{ opacity: 0.6 }}
           >
             <Text

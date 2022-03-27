@@ -8,18 +8,28 @@ import {
 import Topbar from "../components/Topbar";
 import MyList from "../components/MyList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import axios from "axios";
 function PersonScreen({ navigation }) {
   const [mode, setMode] = useState("Saved");
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
   useEffect(async () => {
-    await AsyncStorage.getItem("user")
-      .then((res) => {
-        //console.log(JSON.parse(res));
-        setUser(JSON.parse(res))
-      })
-      .catch((err) => console.log(err));
+    await AsyncStorage.getItem("user").then(async (res) => {
+      //console.log(JSON.parse(res));
+      setUser(JSON.parse(res));
+      //   await axios
+      //     .get(`${serverUrl}/users/${JSON.parse(res).id}`)
+      //     .then((res) => {
+      //       //console.log(res.data)
+      //       if (mode === "Saved") {
+      //         setData(res.data["savedFeed"]);
+      //       } else if (mode === "Created") {
+      //         setData(res.data["createdFeed"]);
+      //       }
+      //     });
+      // })
+      // .catch((err) => console.log(err));
+    });
   }, []);
 
   const imagescr =
@@ -66,10 +76,16 @@ function PersonScreen({ navigation }) {
             size="lg"
             _pressed={{ opacity: 0.6 }}
             marginX={5}
-            onPress={(e) => {
+            onPress={async (e) => {
               e.preventDefault();
               setMode("Saved");
-              setData(user["savedFeed"])
+              await axios
+                .get(`${serverUrl}/users/${user.id}`)
+                .then((res) => {
+                  //console.log(res.data["savedFeed"])
+                  setData(res.data["savedFeed"]);
+                })
+                .catch((err) => console.log(err));
             }}
           >
             <Text
@@ -85,10 +101,16 @@ function PersonScreen({ navigation }) {
             size="lg"
             _pressed={{ opacity: 0.6 }}
             marginX={5}
-            onPress={(e) => {
+            onPress={async (e) => {
               e.preventDefault();
               setMode("Created");
-              setData(user["createdFeed"]);
+              await axios
+                .get(`${serverUrl}/users/${user.id}`)
+                .then((res) => {
+                  //console.log(res.data["createdFeed"])
+                  setData(res.data["createdFeed"]);
+                })
+                .catch((err) => console.log(err));
             }}
           >
             <Text
