@@ -4,7 +4,7 @@
     "slug": "SimpleArtist",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/feather-pointed-solid.png",
     "splash": {
       "image": "./app/assets/splash.png",
       "resizeMode": "contain",
@@ -35,6 +35,7 @@
           "cameraPermission": "The app accesses your camera to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "description": ""
   }
 }

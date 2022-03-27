@@ -9,33 +9,32 @@ import Topbar from "../components/Topbar";
 import MyList from "../components/MyList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { getBackground } from "../util/profileUtil";
 function PersonScreen({ navigation }) {
   const [mode, setMode] = useState("Saved");
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
   useEffect(async () => {
-    await AsyncStorage.getItem("user").then(async (res) => {
-      //console.log(JSON.parse(res));
-      setUser(JSON.parse(res));
-      //   await axios
-      //     .get(`${serverUrl}/users/${JSON.parse(res).id}`)
-      //     .then((res) => {
-      //       //console.log(res.data)
-      //       if (mode === "Saved") {
-      //         setData(res.data["savedFeed"]);
-      //       } else if (mode === "Created") {
-      //         setData(res.data["createdFeed"]);
-      //       }
-      //     });
-      // })
-      // .catch((err) => console.log(err));
-    });
+    await AsyncStorage.getItem("user")
+      .then(async (res) => {
+        //console.log(JSON.parse(res));
+        setUser(JSON.parse(res));
+        await axios
+          .get(`${serverUrl}/users/${JSON.parse(res).id}`)
+          .then((res) => {
+            //console.log(res.data)
+            if (mode === "Saved") {
+              setData(res.data["savedFeed"]);
+            } else if (mode === "Created") {
+              setData(res.data["createdFeed"]);
+            }
+          });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
-  const imagescr =
-    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
-  const prof_pic =
-    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
+  const bg = getBackground();
+
   let [fontsLoaded] = useFonts({
     DancingScript_400Regular,
   });
@@ -47,7 +46,7 @@ function PersonScreen({ navigation }) {
             alignSelf="center"
             w={250}
             h={125}
-            source={{ uri: imagescr }}
+            source={{ uri: bg }}
             alt="bg"
             borderRadius={15}
           />

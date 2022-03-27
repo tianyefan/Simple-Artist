@@ -27,9 +27,9 @@ function Comment({ uri, comment, navigation }) {
           my={2}
         >
           <Image src={uri} size="xs" borderRadius={50} alt="pro_image" />
-          <Text mx={2} my="auto">
+          {/* <Text mx={2} my="auto">
             {name === '' ? 'Guest' : name }
-          </Text>
+          </Text> */}
         </Box>
       </Pressable>
       <Box mx={2} my={2}>

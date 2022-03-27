@@ -15,7 +15,7 @@ import auth from "../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
-
+import { getProfile } from "../util/profileUtil";
 
 function SignUpScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
@@ -25,8 +25,7 @@ function SignUpScreen({ navigation }) {
 
   
   const user = {};
-  const pro_pic =
-    "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";
+  const pro_pic = getProfile()
   const handleSignUp = async () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (res) => {
