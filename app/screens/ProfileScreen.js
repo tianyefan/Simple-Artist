@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -7,7 +7,9 @@ import {
 import { Box, Text, Image, Button, Stack } from "native-base";
 import MyList from "../components/MyList";
 import Topbar from "../components/Topbar";
-function ProfileScreen({ route, navigation }) {
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+async function ProfileScreen({ navigation }) {
   const imagescr =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpeg?alt=media&token=cd2dac08-c9ec-4ec8-91b6-a8ca63977322";
   const prof_pic =
@@ -18,7 +20,12 @@ function ProfileScreen({ route, navigation }) {
   const [mode, setMode] = useState("Saved");
   const [data, setData] = useState([]);
   //console.log(route.params);
-  const user = route.params.user;
+  useEffect(async () => {
+    const user = await JSON.parse(AsyncStorage.getItem("user"));
+    if (user !== null) {
+      console.log(user);
+    }
+  }, []);
   //console.log(user);
   //const userId = route.params.userId
   //console.log(user["profile_pic"])
@@ -44,7 +51,7 @@ function ProfileScreen({ route, navigation }) {
             marginTop={-5}
           />
           <Text textAlign="center" fontSize="md" my={2}>
-            {user["name"]}
+            The Doodge
           </Text>
         </Box>
         <Box
@@ -107,7 +114,7 @@ function ProfileScreen({ route, navigation }) {
             ListHeaderComponent={ListHeaderComponent}
             navigation={navigation}
             data={data}
-            userId={user["id"]}
+            userId="123"
             mode={mode}
           />
         </Box>

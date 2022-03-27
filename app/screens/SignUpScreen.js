@@ -16,11 +16,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 import serverUrl from "../util/serverUrl";
 
+
 function SignUpScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [show, setShow] = React.useState(false);
   const toast = useToast();
+
+  
   const user = {};
   const pro_pic =
     "https://firebasestorage.googleapis.com/v0/b/smart-med-aba54.appspot.com/o/doge.jpg?alt=media&token=a297f8f7-185f-4b90-9d5d-151982bc1541";

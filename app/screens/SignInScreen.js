@@ -15,11 +15,29 @@ import auth from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import serverUrl from "../util/serverUrl";
 import axios from "axios";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const toast = useToast();
+
+  const saveUser = async (response) => {
+    await AsyncStorage.setItem("user", JSON.stringify(response.data))
+    .then(() => {
+      toast.show({
+        description: "Sign in !",
+        placement: "bottom",
+        duration: 1000,
+      });
+      navigation.push("HomeTab");
+    })
+    .catch(
+      (err) => console.log(err)
+    );
+  };
 
   const handleSignIn = async () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -27,15 +45,8 @@ function SignInScreen({ navigation }) {
         const userId = res.user.uid;
         await axios
           .get(`${serverUrl}/users/${userId}`)
-          .then((response) => {
-            toast.show({
-              description: "Sign in !",
-              placement: "bottom",
-              duration: 1000,
-            });
-            navigation.push("HomeTab", {
-              params: { user: response.data },
-            });
+          .then(async (response) => {
+            saveUser(response);
           })
           .catch((err) => console.log(err));
       })
