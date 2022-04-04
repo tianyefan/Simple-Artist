@@ -1,1 +1,1 @@
-export default serverUrl = "https://324b-2601-647-5701-4a40-2cc4-9735-5a6b-ef6e.ngrok.io/"
+export default serverUrl = "https://2f18-2601-647-5701-4a40-f941-6337-2ed7-1e4a.ngrok.io"
