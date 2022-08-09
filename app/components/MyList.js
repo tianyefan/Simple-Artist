@@ -9,7 +9,7 @@ function MyList(props) {
   const handleRefresh = async () => {
     setRefreshing(true);
     await axios
-      .get(`${serverUrl}/users/${props.userId}`)
+      .get(`${serverUrl}/users/${props.userId}`) 
       .then((res) => {
         //console.log(res.data)
         if (props.mode === "Saved") {
